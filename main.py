@@ -1,8 +1,8 @@
 # import asyncio
 # from asyncio import queues
 # import logging
-# , request, Response, jsonify
-from flask import Flask
+
+from flask import Flask, request, Response, jsonify
 from flask_restful import Api
 from models import db
 from speaking import SpeakingQueries
@@ -78,9 +78,14 @@ async def telegram_webhook():
     return Response('OK', status=200)
 """
 
+@app.route('/', methods=['GET'])
+def default():
+    return Response('Get ok', status=200)
+
+
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
+       db.create_all()
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(bot.setWebhook('https://3a3f-84-54-122-153.ngrok-free.app/webhook'))
-    app.run(debug=True)
+    app.run(debug=False)

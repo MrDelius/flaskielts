@@ -77,6 +77,8 @@ class SpeakingQueries(Resource):
     def get(self):
         # Get all the records
         total_records = SpeakingTest.query.all()
+        if not total_records:
+            abort(404, message="No data in db...")
         # get 1 out of all
         result = random.choice(total_records)
 

@@ -62,6 +62,7 @@ class TokenQueries(Resource):
     def post(self):
         args = create_token_args().parse_args()
 
+
         # Create a Token object
         token = Token(
             token=args['token'],
