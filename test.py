@@ -3,33 +3,28 @@ import json
 
 BASE_URL = "http://127.0.0.1:5000/"
 
-# Generate sample data
-data = {
-    'chat_id': 123,
-    'is_private': True,
-    'created_at': '2022-01-01T00:00:00',  # Replace with the actual date and time
-    'updated_at': '2022-01-01T00:00:00',  # Replace with the actual date and time
+# Example data for the POST request
+post_data = {
+    "is_private": True,
 }
 
-# Add sample data for questions, thinking, and speaking parts
-for i in range(1, 3):
-    data[f'question{i}_part1'] = f'The Question {i} for Part 1'
-    data[f'thinking{i}_part1'] = i * 10
-    data[f'speaking{i}_part1'] = i * 5
+# Add data for each part and question using loops
+for part_suffix in [1, 2, 3]:
+    # Add thinking and speaking time, and questions for each part
+    for i in range(1, 31):
+        post_data[f'thinking{i}_part{part_suffix}'] = 10  # Example thinking time
+        post_data[f'speaking{i}_part{part_suffix}'] = 15  # Example speaking time
+        post_data[f'question{i}_part{part_suffix}'] = f'Question {i} for Part {part_suffix}'  # Example question
 
-    data[f'question{i}_part2'] = f'The Question {i} for Part 2'
-    data[f'thinking{i}_part2'] = i * 8
-    data[f'speaking{i}_part2'] = i * 4
+# Add thinking and speaking time for part 2 (as you mentioned 2 parts for part 2)
+post_data['thinking_part2'] = 20  # Example thinking time for part 2
+post_data['speaking_part2'] = 25  # Example speaking time for part 2
 
-    data[f'question{i}_part3'] = f'The Question {i} for Part 3'
-    data[f'thinking{i}_part3'] = i * 6
-    data[f'speaking{i}_part3'] = i * 3
-
-# # Make a POST request to your API endpoint
-# response = requests.put(f'{BASE_URL}/speaking', json=data)
-# # Print the response
-# print(response.status_code)
-# print(response.json())  # Assuming your API returns JSON
+# Make a POST request to your API endpoint
+response = requests.post(f'{BASE_URL}/api/premium/speaking/questions/', json=data)
+# Print the response
+print(response.status_code)
+print(response.json())  # Assuming your API returns JSON
 
 # response = requests.get(BASE_URL+'/speaking')
 # if response.status_code == 200 and 'application/json' in response.headers.get('Content-Type', ''):
@@ -39,8 +34,8 @@ for i in range(1, 3):
 # else:
 #     print(f"Failed to retrieve JSON. Status Code: {response.status_code}")
 #     print(f"Response Content: {response.text}")
-print(data)
-response = requests.put(BASE_URL+'/speaking/1', json=data)
+
+response = requests.put(BASE_URL+'/user/12345', json=user_data)
 # Check the response status and content
 print(f"Response Status Code: {response.status_code}")
 
@@ -50,22 +45,3 @@ if response.status_code == 200:
     print(formatted_json)
 else:
     print(f'Failed to update SpeakingTest. Status code: {response.status_code}, Content: {response.text}')
-
-
-"""{
-        'speaking_test': {'chat_id':'...',
-                        'is_private': '...', ......,
-                        'part1': {'question1': '...',
-                                  'thinking1_part1': '...',
-                                  'speaking1_part1': '...',
-                                  until 10},
-                        'part2': {'question1_part2': '...',
-                                  'thinking1_part2': '...',
-                                  'speaking1_part2': '...',
-                                  until 10},
-                        'part3': {'question1_part3': '...',
-                                  'thinking1_part3': '...',
-                                  'speaking1_part3': '...',
-                                  until 10}
-}
-"""
